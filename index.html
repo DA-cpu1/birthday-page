@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>倪垸贤生日快乐！</title>
+    <style>
+        body {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            font-family: '微软雅黑', sans-serif;
+            text-align: center;
+            overflow-x: hidden;
+            position: relative;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: clamp(2em, 5vw, 3em);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: blink 1.5s infinite;
+        }
+
+        .cake-container {
+            position: relative;
+            width: min(400px, 90vw);
+            margin: 30px auto;
+            cursor: pointer;
+        }
+
+        .cake {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 0 20px rgba(255,223,0,0.6));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .candles {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5em;
+        }
+
+        .message {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            border-radius: 20px;
+            width: min(80%, 600px);
+            margin: 30px auto;
+            box-shadow: 0 0 30px rgba(0,0,0,0.2);
+            line-height: 1.8;
+        }
+
+        .balloon {
+            position: absolute;
+            width: 60px;
+            height: 80px;
+            border-radius: 50%;
+            animation: balloon 8s ease-in infinite;
+            pointer-events: none;
+        }
+
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .music-control:hover {
+            transform: scale(1.05);
+        }
+
+        .start-button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background: #fff;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .start-button:hover {
+            transform: scale(1.05);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; color: #ffd700; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes balloon {
+            0% { transform: translateY(100vh) scale(0.8); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(-150vh) scale(1.2); opacity: 0; }
+        }
+
+        @keyframes heart-float {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(0); opacity: 0; }
+        }
+
+        .hearts {
+            position: fixed;
+            font-size: 25px;
+            pointer-events: none;
+            animation: heart-float 1.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <div id="start-screen">
+        <button class="start-button" onclick="startCelebration()">点击开始庆祝 🎉</button>
+    </div>
+
+    <div id="main-content" class="hidden">
+        <div class="music-control" onclick="toggleMusic()">🎵 播放音乐</div>
+        
+        <div class="container">
+            <h1>🎉 倪垸贤，生日快乐呀！ 🎂</h1>
+            
+            <div class="cake-container" onclick="spawnHearts(event)">
+                <img src="https://raw.githubusercontent.com/DA-cpu1/images/main/timg.gif" alt="生日蛋糕">
+                <div class="candles">🕯️🕯️🕯️🕯️🕯️</div>
+            </div>
+
+            <div class="message">
+                <p style="font-size: 1.6em; color: #ff6b6b; margin-bottom: 25px;">亲爱的倪垸贤：</p>
+                <p>🎈 愿你的每一天都充满阳光与欢笑，永远保持灿烂的笑容！</p>
+                <p>🌟 愿所有梦想都能开花结果，每个努力都有甜蜜回报！</p>
+                <p>💖 愿健康常伴左右，幸福永驻心间，快乐永不退色！</p>
+                <p>🎓 愿你吃啥都不胖，学业步步高升，收获满满成就！</p>
+                <p>👫 愿你我情谊，如酒越陈越香，生日快乐，岁岁平安喜乐！</p>
+                <p style="margin-top: 25px;">🎂 🎁 🎊 🎉 🍰</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const audio = new Audio('https://assets.mixkit.co/music/preview/mixkit-happy-birthday-285.mp3');
+        audio.loop = true;
+        let isPlaying = false;
+
+        function startCelebration() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('main-content').classList.remove('hidden');
+            createBalloons();
+            
+            // 尝试播放音乐
+            audio.play().catch(e => {
+                console.log('Auto-play prevented:', e);
+            });
+            isPlaying = true;
+            document.querySelector('.music-control').textContent = '⏸️ 暂停音乐';
+        }
+        
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                document.querySelector('.music-control').textContent = '🎵 播放音乐';
+            } else {
+                audio.play();
+                document.querySelector('.music-control').textContent = '⏸️ 暂停音乐';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        function createBalloons() {
+            const colors = ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff'];
+            for (let i = 0; i < 25; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.style.left = Math.random() * 100 + '%';
+                balloon.style.background = colors[i % colors.length];
+                balloon.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(balloon);
+            }
+        }
+
+        function spawnHearts(e) {
+            const emojis = ['🎉', '🎈', '🎁', '✨', '💖'];
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'hearts';
+                    heart.style.left = (e.pageX - 12) + 'px';
+                    heart.style.top = (e.pageY - 12) + 'px';
+                    heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 1500);
+                }, i * 150);
+            }
+        }
+
+        document.addEventListener('click', spawnHearts);
+    </script>
+</body>
+</html>
